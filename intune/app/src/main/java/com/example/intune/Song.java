@@ -38,7 +38,7 @@ public class Song {
         this.composer = composer;
     }
 
-    public Song(String name, int rate, String style, String composer){
+    public Song(String name, double rate, String style, String composer){
         this.name=name;
         this.rate=rate;
         this.style=style;

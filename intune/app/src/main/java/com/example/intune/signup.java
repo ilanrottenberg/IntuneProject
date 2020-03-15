@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,11 +20,11 @@ public class signup extends AppCompatActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
-        SGU_username.findViewById(R.id.signUp_username);
-        SGU_pasword.findViewById(R.id.signUp_pasword);
-        SGU_aproval.findViewById(R.id.signUp_aprovalPasword);
-        SGU_sgu.findViewById(R.id.signUp_btnSignUp);
-        db = openOrCreateDatabase("users", MODE_PRIVATE, null);
+        SGU_username = findViewById(R.id.signUp_username);
+        SGU_pasword = findViewById(R.id.signUp_pasword);
+        SGU_aproval = findViewById(R.id.signUp_aprovalPasword);
+        SGU_sgu = findViewById(R.id.signUp_btnSignUp);
+        db = openOrCreateDatabase("db", MODE_PRIVATE, null);
         SGU_sgu.setOnClickListener(this);
     }
 
@@ -38,9 +39,9 @@ public class signup extends AppCompatActivity implements View.OnClickListener {
                     aproval.trim().length() > 0){
                 if (pasword.equals(aproval)){
                     if(addData(username, pasword)){
-
+                        db.execSQL("insert into tbl_users values('"+username+"', '"+pasword+"')");
+                        startActivity(new Intent(signup.this, SongsList.class));
                     }
-                    startActivity(new Intent(this, SongsList.class));
                 }
                 else{
                     Toast.makeText(this, "password not match", Toast.LENGTH_SHORT).show();
@@ -48,20 +49,22 @@ public class signup extends AppCompatActivity implements View.OnClickListener {
             }
         }
     }
-    private void build_tables(){
-        db.execSQL("create table if not exists  tbl_users(name text, password text) ");
-    }
-    private boolean addData(String username, String password) {
-        db = openOrCreateDatabase("mahsan_shell_ilan", MODE_PRIVATE, null);
 
-        Cursor cursor = db.rawQuery("select * from tbl_users", null);
+
+
+
+
+    private boolean addData(String username, String password) {
+        db = openOrCreateDatabase("db", MODE_PRIVATE, null);
+
+        Cursor cursor = db.rawQuery("SELECT * FROM tbl_users", null);
         while(cursor.moveToNext()){
-            if(cursor.getString(0).equals(username)) {
-                Toast.makeText(this, "user exists", Toast.LENGTH_SHORT).show();
+            if(cursor.getString(0).equals(username) && cursor.getString(1).equals(password)) {
+                Toast.makeText(this, "Change password", Toast.LENGTH_SHORT).show();
                 return false;
             }
         }
-        db.execSQL("insert into tbl_users values('"+username+"', '"+password+"')");
+
         return true;
     }
 }

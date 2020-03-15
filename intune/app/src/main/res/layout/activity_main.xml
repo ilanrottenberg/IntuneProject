@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="5dp"
     tools:context=".MainActivity">
 
     <TextView
@@ -29,10 +30,13 @@
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:hint="username"
+            android:id="@+id/Login_username"
+            android:imeOptions="actionNext"
             android:textSize="30dp"
             android:layout_marginTop="15dp"
-            android:hint="username"
-            android:id="@+id/Login_username"></EditText>
+            android:maxLines="1"
+            android:nextFocusForward="@+id/LoginPasword"></EditText>
 
     </LinearLayout>
     <LinearLayout
@@ -55,7 +59,9 @@
             android:layout_marginTop="15dp"
             android:textColor="#0F1E8A"
             android:hint="pasword"
-            android:id="@+id/LoginPasword"></EditText>
+            android:id="@+id/LoginPasword"
+            android:imeOptions="actionNext"
+            android:maxLines="1"></EditText>
     </LinearLayout>
     <Button
         android:layout_width="match_parent"
